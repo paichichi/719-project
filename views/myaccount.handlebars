@@ -1,0 +1,161 @@
+
+<!-- 
+    This is the myaccount handlebars. It shows a personalised welcome message, and allows users to change any of their details
+-->
+
+<div class="container-create">
+
+ {{! Display a message if one was provided. }}
+    {{#if toastMessage}}
+    <p class="toast-message"Message}}</p>
+    {{/if}}
+
+  <!--dispalying personalised account details of current user-->
+    <h1>{{user.fname}}'s Account Details</h1>
+
+    <form action="./myAccount" method="POST">
+      <!--displaying the my account box-->
+        <div class="flex-col mb">
+            <label for="fname">First name</label>
+            <p></p>
+            <input type="text" name="fname" id="fname">
+        </div>
+
+        <br>
+
+        <div class="flex-col mb">
+            <label for="lname">Last name</label>
+            <p></p>
+            <input type="text" name="lname" id="lname" >
+        </div>
+
+        <br>
+        
+        <div class="flex-col mb">
+            <label for="dob">Date of birth</label>
+            <p></p>
+            <input type="date" name="dob" id="dob" >
+        </div>
+
+        <br>
+
+        <div class="flex-col mb">
+            <label for="username">Username</label>
+            <p></p>
+            <input type="text" name="username" id="username" class="usernamecheck">
+            <p id="log"></p>
+        </div>
+            
+
+
+        <!--ensuring the passwords match, and that they're six or more characters long-->
+
+        <div class="flex-col mb">
+            <label for ="password">Password</label>
+            <p></p>
+        <input id="password" name="password" type="password" pattern="^\S{6,}$" 
+        onchange="this.setCustomValidity(this.validity.patternMismatch ? 
+        'Must have at least 6 characters' : ''); if(this.checkValidity()) 
+        form.password_two.pattern = this.value;" >
+        </div>
+
+        <br>
+    
+        <div class="flex-col mb">
+        <label for="password_two">Confirm Password</label>
+        <p></p>
+        <input id="password_two" name="password_two" type="password" pattern="^\S{6,}$" 
+        onchange="this.setCustomValidity(this.validity.patternMismatch ? 
+        'Please enter the same password as above' : '');" >
+        </div>
+
+        <br>
+
+         <div class="flex-col mb">
+            <label for="bio">Tell us a bit about yourself</label>
+            <p></p>
+            <input type="text" name="bio" id="bio">
+        </div>
+        <br>
+        <label id="signupavatar">Choose your avatar:</label>
+        <br>
+        <br>
+        <div class="avatar-container">
+        
+            
+            <div>
+            <input type="radio" name="avatar" class="signupavatar" id="1" value="1">
+            <label for="1">
+                <img src="./images/avatars/1.png">
+            </label>
+            </div>
+            <div>
+                <input type="radio" name="avatar" class="signupavatar" id="2" value="2">
+                    <label for="2">
+                    <img src="./images/avatars/2.png">
+                </label>
+            </div>
+            <div><input type="radio" name="avatar" class="signupavatar" id="3" value="3">
+            <label for="3">
+                <img src="./images/avatars/3.png">
+            </label></div>
+            
+            <div><input type="radio" name="avatar" class="signupavatar" id="4" value="4">
+            <label for="6">
+                <img src="./images/avatars/4.png">
+            </label></div>
+            <div><input type="radio" name="avatar" class="signupavatar" id="5" value="5">
+            <label for="5">
+                <img src="./images/avatars/5.png">
+            </label></div>
+            <div><input type="radio" name="avatar" class="signupavatar" id="6" value="6" checked>
+            <label for="6">
+                <img src="./images/avatars/6.png">
+            </label></div>
+            
+        </div>
+        <br>
+
+        <div>
+            <button type="submit">Change account details</button>
+        </div>
+        <br>
+    </form>
+    <br>
+    <form action="./deleteAccount" method="POST">
+
+        <button id="deleteButton" type="submit">Delete my account</button>
+
+    </form>
+    <br>
+
+</div>
+
+<!--script to check if the currenlty entered username is available in the database-->
+
+<script>
+    const input = document.querySelector(".usernamecheck");
+    const log = document.querySelector("#log");
+    const submitButton = document.querySelector("#createNewAccountButton)
+
+
+    input.addEventListener("change", async function(){
+    let request = await fetch(`http://localhost:3000/getAllUsersDetails`);
+    let allDetails = await request.json();
+    let count = 0;
+    for(let i = 0; i < allDetails.length; i++){
+        if(input.value == allDetails[i].username){
+            count ++;
+        }else{
+            count += 0
+        }
+    }
+    if(count > 0){
+        log.innerHTML = "This username is already taken!";
+        submitButton.classList.add('disabled');
+    }else{
+        log.innerHTML = "This username is available!";
+        submitButton.classList.add("enabled");
+    }
+    });
+</script>

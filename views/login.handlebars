@@ -1,0 +1,57 @@
+<!-- 
+    This is the login handlebars. It shows an automated gallery, and a login box, where users can sign in with their credentials. If the user
+    does not yet have an account, if offers them the opportunity to make one. 
+-->
+
+<div id="loginheader">
+    <div class="welcome-text">
+      <h1>Welcome! | @FlavourFul</h1>
+    </div>
+</div>
+
+ {{! Display a message if one was provided. }}
+  {{#if toastMessage}}
+    <p class="toast-message">{{toastMessage}}</p>
+  {{/if}}
+  <!--displaying automated gallery/timer etc.-->
+
+  <img src="./images/thumbnails/lily-banse--YHSwy6uqvk-unsplash.jpg" id="image" class ="slideshow-container fade-in"onclick="stop();">
+
+  <script type = "text/javascript">
+    let image = document.getElementById("image");
+    let i = 0;
+    const images = ["./images/thumbnails/lily-banse--YHSwy6uqvk-unsplash.jpg", "./images/thumbnails/davide-cantelli-jpkfc5_d-DI-unsplash.jpg", "./images/thumbnails/brooke-lark-jUPOXXRNdcA-unsplash.jpg","./images/thumbnails/brooke-lark-M4E7X3z80PQ-unsplash.jpg"]
+
+      function changePhoto() {
+        i<images.length-1?i+=1:i=0; 
+      document.getElementById("image")
+        image.src=images[i];}
+  
+  setInterval(changePhoto, 3000);
+            
+  </script>
+  <!--displaying login box-->
+<div class="login">
+
+  <h1 id="login-word">Login</h1>
+
+  <form action="./login" method="POST">
+      <div class="flex-col mb">
+          <label for="txtUsername">Username</label>
+          <p></p>
+        <input type="text" name="username" id="txtUsername" required>
+      </div>
+      <br>
+      <div class="flex-col mb">
+          <label for="txtPassword">Password</label>
+          <p></p>
+        <input type="password" name="password" id="txtPassword" required>
+      </div>
+      <br>
+      <div class="flex-row justify-sb align-center">
+          <button type="submit">Log in</button>
+      </div>
+  
+  </form>
+    <p id="dont">Don't have an account? <a href="./newAccount">Sign Up!</a></p>
+</div>

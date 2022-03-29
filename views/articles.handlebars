@@ -1,0 +1,40 @@
+{{!-- 
+    This page should show all of the articles, no matter whether the user is logged in or not.
+    We can have one article display at a time, and the user can click something like 'next' article
+    to display the next. Same with previous. Like the book lab.  --}}
+
+<div id="container-all-article">
+
+<!--displaying all sort methods-->
+  <div id="checkBox" class="sorting"> 
+    <form action="./sortBy" method="POST">
+        <label for="sort_id">Sort by:</label>
+        <select name="sortName" id="sort_id">
+            <option {{sele1}} value="name">username</option>
+            <option {{sele2}} value="date">date</option>
+            <option {{sele3}} value="title">title</option>
+        </select>
+        <input type="submit" value="Sort">
+    </form>
+  </div>  
+<!--displaying each article-->
+    {{#each allArticles}}
+    <div class="card">
+        
+        <div class="card-header"><a href="/content?id={{id}}">
+        
+        <img class="card-image" src="images/thumbnails/{{image}}"></a></div>
+        
+        <div class="card-body"><a href="/content?id={{id}}" class="articl-a">
+      
+            <h1 class="card-title">{{title}}</h1>
+            <h3><em>@Flavourful</em> ingredients:</h3>
+            <p class="card-text">{{{ingredients}}}</p>
+        </a>
+          <hr>
+        </div>
+        
+    </div>
+    {{/each}}
+
+</div>

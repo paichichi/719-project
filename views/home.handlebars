@@ -1,0 +1,88 @@
+
+{{!-- This page displays basic content, including user data, decorative images, and basic
+functionality for writing recipes. The main page has links and function keys that
+connect to other secondary pages. . . --}}
+
+
+<div id="home-page">
+
+<div id="home-page">
+  
+   {{! Display a message if one was provided. }}
+  {{#if toastMessage}}
+    <p class="toast-message">{{toastMessage}}</p>
+  {{/if}}
+  
+  <!--dispalying personalised welcome message-->
+
+  <div class="welcome-text">
+    <h1>Welcome Back |&nbsp;{{user.fname}} 
+      </h1><img class="avatar-img" src="./images/avatars/{{user.avatar}}.png" />
+   
+  </div>
+
+  <!--displaying automated gallery/timer etc.-->
+
+  <img src="./images/thumbnails/lily-banse--YHSwy6uqvk-unsplash.jpg" id="image" class ="slideshow-container fade-in"onclick="stop();">
+
+  <script type = "text/javascript">
+    let image = document.getElementById("image");
+    let i = 0;
+    const images = ["./images/thumbnails/lily-banse--YHSwy6uqvk-unsplash.jpg", "./images/thumbnails/davide-cantelli-jpkfc5_d-DI-unsplash.jpg", "./images/thumbnails/brooke-lark-jUPOXXRNdcA-unsplash.jpg","./images/thumbnails/brooke-lark-M4E7X3z80PQ-unsplash.jpg"]
+
+      function changePhoto() {
+        i<images.length-1?i+=1:i=0; 
+      document.getElementById("image")
+        image.src=images[i];}
+  
+  setInterval(changePhoto, 3000);
+            
+ </script>
+ 
+  <!--displaying the upload recipe functionality-->
+
+  <div id="recipeUpload">
+    
+    <br>  
+    <h3>Add your new <em>@Flavourful</em> recipe here:</h3>
+    <br>
+
+    <form action="./uploadRecipe" method="POST" enctype="multipart/form-data">
+
+      <div id="recipeTitleDiv">
+          <label for="recipeTitle">Give your recipe an <em>@Flavourful</em> name:</label>
+          <input type="text" size="50" maxlength="32" name="title" id="recipeTitle" required aria-required="true">
+      </div>
+      <br>
+      
+      <p>List <em>@Flavourful</em> ingredients:</p>
+      <div id="ingredientsDiv">
+        <textarea class="wysiwygEditor" name="ingredients" id="ingredientsEditor" required aria-required="true">
+        </textarea>
+      </div>
+      <br>
+      
+      <p>Give instructions for preparing your <em>@Flavourful</em> recipe:</p>
+      <div id="methodDiv">
+        <textarea class="wysiwygEditor" name="method" id="methodEditor" required aria-required="true">
+        </textarea>
+      </div>
+      <br>
+      
+      <label for="inpFile">Upload an image of your <em>@Flavourful</em> dish:</label>
+      <input
+        id="inpFile"
+        type="file"
+        name="imageFile"
+        accept=".png,.jpg,.jpeg,.bmp"
+      />
+      <br>
+      <br>
+      <button type="submit"><strong>POST <em>@Flavourful</em></strong></button>
+      <br>
+
+    </form>
+
+  </div>
+
+</div>

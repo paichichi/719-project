@@ -1,0 +1,69 @@
+<!-- 
+    This is the main handlebars. It provides the WYSIWYG editor functionality, and sets up the navigation bar, which will be
+    present on all pages. 
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    {{#if title}}
+    <title>{{title}}</title>
+    {{else}}
+    <title>Default title.</title>
+    {{/if}}
+    <link rel="stylesheet" href="./css/site.css">
+    <style>@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@800&display=swap');</style>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Lato&family=Open+Sans:wght@400;800&display=swap');</style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.tiny.cloud/1/cq7c0kz5cfk762vhm8wh6sryppgbhuuawwwij58d4jizb3up/tinymce/5/tinymce.min.js" referrerpolicy="origin">
+    </script>
+    <!--setting up the WYSIWYG editor-->
+    <script>tinymce.init({
+        selector: '.wysiwygEditor',
+        plugins: 'lists',
+        menubar: false,
+        toolbar: 'undo redo | styleselect | bold italic underline strikethrough superscript subscript | alignleft aligncenter alignright alignjustify | outdent indent | numlist bullist'
+        });
+    </script>
+    <script type="text/javascript" src="./script/script.js"></script>
+</head>
+
+<body>
+    <!--setting up the Nav bar-->
+    <div id="container-Main">
+       <nav id="nav">
+           <div id="leftnav">
+               <a href="/" class="nav-a">Home</a>
+               <a href="/articles" class="nav-a">All Recipes</a>
+                {{#if user}}
+               <a href="/userArticles" class="nav-a">Your Recipes</a>
+               {{/if}}
+
+           </div>
+           <div id="rightnav">
+               <a href="https://www.facebook.com/" class="fa fa-facebook" id="facebook"></a>
+               <a href="https://twitter.com/" class="fa fa-twitter" id="twitter"></a>
+               <a href="https://www.instagram.com/" class="fa fa-instagram" id="instagram"></a>
+               <a href="https://rss.com/" class="fa fa-rss" id="rss"></a>
+               {{#if user}}
+               
+               <a href="/myAccount" class="nav-a">My Account</a>
+               
+               <a href="/logout" class="nav-a">Log out</a>
+               {{else}}
+               <a href="/newAccount" class="nav-a">Sign Up!</a>
+               <a href="/login" class="nav-a">Log in</a>
+               {{/if}}
+
+           </div>
+
+        </nav>
+
+        {{{body}}}
+
+    </div>
+</body>
+
+</html>

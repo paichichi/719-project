@@ -1,0 +1,167 @@
+{{!-- 
+This page show show a specifc content, comments for the receipt, and there are also features
+such as adding comments, voting, replying, and deleting, when user click a receipt from the
+ article handlerbar. A content presentation page... --}}
+
+
+
+<div id="container-content">
+    <h1>{{content.title}}</h1>
+<!--displaying the user's details and the article content-->
+    <div id="small-header">
+        <p id="author-content">Author: {{content.username}}</p>
+        <img id="author-avatar" src="./images/avatars/{{content.avatar}}.png"/>
+        <p id="time-content">Time: {{content.timestamp}}</p>
+    </div>
+
+    <div id="container-image">
+        <img id="img-inside" src="./images/thumbnails/{{content.image}}">
+    </div>
+    
+    <div id="container-recipe">
+        <h3><em>@Flavourful</em> ingredients:</h3>
+        {{{content.ingredients}}}
+
+        <h3><em>@Flavourful</em> instructions:</h3>
+        {{{content.method}}}
+    </div>
+
+    <div id="container-edit">
+        {{#if userAuthor}}
+        <form action="./editRecipe" method="POST">
+        <button type="submit">EDIT this recipe</button>
+        </form>
+        <br>
+        <form action="./deleteRecipe" method="POST">
+        <button type="submit">DELETE this recipe!</button>
+        </form>
+        {{/if}}
+    </div>
+
+</div>
+<!--displaying the comments section with a toggle-->
+<div id="comment-button">
+    <h3>Comments</h3>
+    <button id="toggle">Show/Hide Comments</button>
+    <hr>
+</div><!--displaying the comments section-->
+
+<div id="comment-display">
+
+    {{#each comments}}
+    <div class="comment-card">
+        <div class="comment-avater"><img class="comment-image" src="./images/avatars/{{avatar}}.png"></div>
+        <div class="comment-contents">
+            <div class="comment-title">
+                <p class="comment-username">{{username}}</p>
+                <p class="comment-time">{{timestamp}}</p>
+                    <div id= "flex-container">
+                        {{#if voteAuth}}
+                        <a href="./voteCommentUp?id={{id}}"><img src="./images/avatars/up.png" class="small-icon"></a><p class="comment-upvote">{{upvote}}</p>
+                        <a href="./voteCommentDown?id={{id}}"><img src="./images/avatars/down.png" class="small-icon"></a><p class="comment-downvote">{{downvote}}</p>
+                        {{/if}}
+                        {{#if delectAuth}}
+                        <a href="./deleteComment?id={{id}}"><img src="./images/avatars/delete.png" class="small-icon"></a>
+                        {{/if}}
+                    </div>
+                        {{#if replyAuth}}
+                        <a href="#1" class="replyToggle">Reply</a>
+                        <div class="replyPopup1"><form action="./replyComment" method="GET">
+                        <textarea name="content" rows="4" cols="50" placeholder="Type your reply here..." class="second-textbox" required></textarea>
+                        <input type="hidden" name="comment_id" value="{{id}}">
+                        <br><input type="submit" class="submit-second">
+                        </form>
+                        </div>
+                        {{/if}}
+            </div>
+                <p class="comment-text">{{content}}</p>
+<!--if there are children comments-->
+
+            {{#if children}}
+            {{#each children}}
+            <div class="comment-card-child">
+                <div class="comment-avater-child"><img class="comment-image-child" src="./images/avatars/{{avatar}}.png"></div>
+                <div class="comment-contents-child">
+                    <div class="comment-title-child">
+                        <p class="comment-username-child">{{username}}</p>
+                        <p class="comment-time-child">{{timestamp}}</p>
+                        <div id= "flex-container">
+                        {{#if voteAuth}}
+                        <a href="./voteCommentUp?id={{id}}"><img src="./images/avatars/up.png" class="small-icon"></a><p class="comment-upvote">{{upvote}}</p>
+                        <a href="./voteCommentDown?id={{id}}"><img src="./images/avatars/down.png" class="small-icon"></a><p class="comment-downvote">{{downvote}}</p>
+                        {{/if}}
+                        {{#if delectAuth}}
+                        <a href="./deleteComment?id={{id}}"><img src="./images/avatars/delete.png" class="small-icon"></a>
+                        {{/if}}
+                        </div>
+                        {{#if replyAuth}}
+                        <a href="#1" class="replyToggle">Reply</a>
+                        <div class="replyPopup1"><form action="./replyComment" method="GET">
+                        <textarea name="content" rows="4" cols="38" placeholder="Type your reply here..." class="second-textbox" required></textarea>
+                        <input type="hidden" name="comment_id" value="{{id}}">
+                        <br><input type="submit" class="submit-second">
+                </form>
+                </div>
+                {{/if}}
+                    </div>
+                    <p class="comment-text-child">{{content}}</p>
+
+                               {{#if children}}
+            {{#each children}}
+            <div class="comment-card-child-second">
+                <div class="comment-avater-child-second"><img class="comment-image-child-second" src="./images/avatars/{{avatar}}.png"></div>
+                <div class="comment-contents-child-second">
+                    <div class="comment-title-child-second">
+                        <p class="comment-username-child-second">{{username}}</p>
+                        <p class="comment-time-child-second">{{timestamp}}</p>
+                        <div id= "flex-container">
+                        {{#if voteAuth}}
+                        <a href="./voteCommentUp?id={{id}}"><img src="./images/avatars/up.png" class="small-icon"></a><p class="comment-upvote">{{upvote}}</p>
+                        <a href="./voteCommentDown?id={{id}}"><img src="./images/avatars/down.png" class="small-icon"></a><p class="comment-downvote">{{downvote}}</p>
+                        {{/if}}
+                        {{#if delectAuth}}
+                        <a href="./deleteComment?id={{id}}"><img src="./images/avatars/delete.png" class="small-icon"></a>
+                        {{/if}}
+                        </div>
+                    </div>
+                    <p class="comment-text-child-second">{{content}}</p>
+                </div>
+
+            </div>
+
+            {{/each}}
+            {{/if}}
+
+                </div>
+
+            </div>
+
+            {{/each}}
+            {{/if}}
+
+        </div>
+    </div>
+    {{/each}}
+</div>
+
+<!--submitting the comments-->
+
+<div id="comment-submit">
+
+    {{#if user}}
+
+<h3>Add Comment</h3>
+<div>Hi {{user.username}}, please post your comment below!</div>
+<form action="./commentUpload" method="POST">
+    <textarea name="content" id="txtContent" rows="10" placeholder="Type your comment here..." required></textarea>
+    <br><input type="submit" id="submit">
+</form>
+<br>
+{{else}}
+<div>
+    <div>You don't have authority to leave comments!</div>
+    <p>Please <a href="./login">Log in</a></p>
+</div>
+<br>
+{{/if}}
+</div>

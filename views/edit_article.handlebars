@@ -1,0 +1,121 @@
+<!-- 
+    This is the content edit handlebars. It shows each article's content, as well as detials about the user that created the article,
+    and allows the user to make changes to their article. 
+-->
+<script>
+  window.addEventListener("load", function(event) {
+    
+    const currentImageRadio = document.getElementById("currentImageRadio");
+    const defaultImageRadio = document.getElementById("defaultImageRadio");
+    const newImageRadio = document.getElementById("newImageRadio");
+
+    const currentImage = document.getElementById("currentImage");
+    const defaultImage = document.getElementById("defaultImage");
+    const inputFile = document.querySelector("#inpFile");
+
+    currentImage.addEventListener("click", function(event) {
+      currentImageRadio.focus();
+      currentImageRadio.click();
+    });
+
+    defaultImage.addEventListener("click", function(event) {
+      defaultImageRadio.focus();
+      defaultImageRadio.click();
+    });
+    
+    inputFile.addEventListener("change", function(event) {
+      newImageRadio.focus();
+      newImageRadio.click();
+    });
+  
+  });
+</script>
+
+<div id="edit-page">
+   {{! Display a message if one was provided. }}
+
+
+<!--displaying the current user's recipe and allowing them to edit it-->
+  <div class="welcome-text">
+    <h1>Edit your recipe | <em>@Flavourful</em>
+  </div>
+    
+  <div id="editRecipe">
+
+    <form action="./updateRecipe" method="POST" enctype="multipart/form-data">
+
+      <div id="recipeTitleDiv">
+        <br>  
+        <label for="recipeTitle">Change your recipe's <em>@Flavourful</em> name:</label>
+        <input type="text" size="50" maxlength="32" name="title" id="recipeTitle" value="{{content.title}}" required>
+      </div>
+      <br>
+      
+      <p>Edit <em>@Flavourful</em> ingredients:</p>
+      <div id="ingredientsDiv">
+        <textarea class="wysiwygEditor" name="ingredients" id="ingredientsEditor" required>
+          {{content.ingredients}}
+        </textarea>
+      </div>
+      <br>
+      
+      <p>Edit instructions for preparing your <em>@Flavourful</em> recipe:</p>
+      <div id="methodDiv">
+        <textarea class="wysiwygEditor" name="method" id="methodEditor" required>
+          {{content.method}}
+        </textarea>
+      </div>
+      <br>
+      <!--displaying the current recipe's image and allowing the author to edit it-->
+      {{#if toastMessage}}
+        <p class="toast-message">{{toastMessage}}</p>
+      {{/if}}
+      <fieldset>
+        {{#if defaultImage}}
+        <input type="radio" name="editImage" id="currentImageRadio" value="{{content.image}}" checked>
+        <label for="currentImageRadio">Keep the <em>@Flavourful</em> default image for your recipe:</label>
+        <br>
+        <img id="currentImage" src="./images/thumbnails/{{content.image}}"  alt="Current Image for {{content.title}}" width="320px" height="auto">
+        <br>
+        <input type="radio" name="editImage" id="newImageRadio" value="inputFile">
+        <label for="newImageRadio">Upload a replacement image of your <em>@Flavourful</em> dish here:</label>
+        <input
+          id="inpFile"
+          type="file"
+          name="imageFile"
+          accept=".png,.jpg,.jpeg,.bmp"
+        />
+        {{else}}
+        <input type="radio" name="editImage" id="currentImageRadio" value="{{content.image}}" checked>
+        <label for="currentImageRadio">Keep the current image for your <em>@Flavourful</em> recipe:</label>
+        <br>
+        <img id="currentImage" src="./images/thumbnails/{{content.image}}"  alt="Current Image for {{content.title}}" width="320px" height="auto">
+        <br> 
+        <input type="radio" name="editImage" id="defaultImageRadio" value="default.jpg">
+        <label for="defaultImageRadio">Replace your current image with this <em>@Flavourful</em> default image:</label>
+        <br>
+        <img id="defaultImage" src="./images/thumbnails/default.jpg"  alt="Photo of various spices - default @Flavourful image" width="320px" height="auto">
+        <br>
+        <input type="radio" name="editImage" id="newImageRadio" value="inputFile">
+        <label for="newImageRadio">Upload a replacement image of your <em>@Flavourful</em> dish here:</label>
+        <input
+          id="inpFile"
+          type="file"
+          name="imageFile"
+          accept=".png,.jpg,.jpeg,.bmp"
+        />
+        {{/if}}
+        
+      </fieldset>
+
+      <br>
+      <br>
+      <button type="submit"><strong>POST your changes <em>@Flavourful</em></strong></button>
+      <br>
+      <br>
+
+    </form>
+
+  </div>
+
+</div>
